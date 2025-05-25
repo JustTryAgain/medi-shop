@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Search, ShoppingCart, Heart, Menu, X, User, Moon, Sun, Globe } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -16,7 +16,7 @@ const Navbar = () => {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
   const { language, setLanguage } = useLanguage();
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { cart } = useCart();
   const t = translations[language];
 
@@ -33,7 +33,7 @@ const Navbar = () => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = (e: FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
@@ -53,19 +53,18 @@ const Navbar = () => {
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 mr-2">
-              <span className="text-white font-bold text-xl">M</span>
+            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 mr-2 text-center">
+              <img alt="logo icon" src="/icons/MedPlusLogo.png" className="cursor-pointer w-12 h-12 rounded-full border-2 border-blue-600" />
             </div>
-            <span className="font-bold text-xl text-gray-900 dark:text-white">MediShop</span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="nav-link">
-              {t.home}
-            </Link>
             <Link to="/products" className="nav-link">
               {t.products}
+            </Link>
+            <Link to="/terms" className="nav-link">
+              {t.termsAndPolicy}
             </Link>
           </nav>
 
@@ -112,10 +111,10 @@ const Navbar = () => {
                   English
                 </button>
                 <button 
-                  onClick={() => setLanguage('es')} 
-                  className={`block w-full text-left px-4 py-2 text-sm ${language === 'es' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'} hover:bg-gray-100 dark:hover:bg-gray-700`}
+                  onClick={() => setLanguage('ua')}
+                  className={`block w-full text-left px-4 py-2 text-sm ${language === 'ua' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'} hover:bg-gray-100 dark:hover:bg-gray-700`}
                 >
-                  Español
+                  Українська
                 </button>
               </div>
             </div>

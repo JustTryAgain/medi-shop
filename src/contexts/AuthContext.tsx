@@ -1,10 +1,15 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+// WARNING: For demo purposes only.
+// Do NOT store plain passwords or sensitive data in localStorage in production.
+
 interface User {
   id: string;
   name: string;
   email: string;
   avatar?: string;
+  password: string;
+  isCurrent: boolean;
 }
 
 interface AuthContextType {
@@ -18,102 +23,109 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock user data
-const mockUsers = [
-  {
-    id: '1',
-    name: 'John Doe',
-    email: 'john@example.com',
-    password: 'password123',
-    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600'
-  },
-  {
-    id: '2',
-    name: 'Jane Smith',
-    email: 'jane@example.com',
-    password: 'password123',
-    avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600'
-  }
-];
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check if user is logged in from localStorage
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    // Initial auth check on mount only
+    const storedUsers = localStorage.getItem('users');
+    if (storedUsers) {
       try {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-        setIsAuthenticated(true);
+        const parsedUsers: User[] = JSON.parse(storedUsers);
+        const currentUser = parsedUsers.find((user: User) => user.isCurrent);
+        if (currentUser) {
+          setUser(currentUser);
+          setIsAuthenticated(true);
+        }
       } catch (e) {
-        localStorage.removeItem('user');
+        localStorage.removeItem('users');
+        console.error(e);
       }
     }
-  }, []);
+  }, []); // Intentionally empty dependency array
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Clear previous errors
     setError(null);
-    
-    // Simulate API call
+
     return new Promise((resolve) => {
       setTimeout(() => {
-        const foundUser = mockUsers.find(u => u.email === email && u.password === password);
-        
-        if (foundUser) {
-          const { password, ...userWithoutPassword } = foundUser;
-          setUser(userWithoutPassword);
+        const storedUsers = localStorage.getItem('users');
+        const parsedUsers: User[] = storedUsers ? JSON.parse(storedUsers) : [];
+
+        const loginUser = parsedUsers.find(
+          (user: User) => user.email === email && user.password === password
+        );
+
+        if (loginUser) {
+          const updatedUsers = parsedUsers.map(u => ({
+            ...u,
+            isCurrent: u.email === loginUser.email
+          }));
+          localStorage.setItem('users', JSON.stringify(updatedUsers));
+          setUser(loginUser);
           setIsAuthenticated(true);
-          localStorage.setItem('user', JSON.stringify(userWithoutPassword));
           resolve(true);
         } else {
           setError('Invalid email or password');
           resolve(false);
         }
-      }, 1000); // Simulate network delay
+      }, 500);
     });
   };
 
   const register = async (name: string, email: string, password: string): Promise<boolean> => {
-    // Clear previous errors
     setError(null);
-    
-    // Simulate API call
+
     return new Promise((resolve) => {
       setTimeout(() => {
-        // Check if email already exists
-        const existingUser = mockUsers.find(u => u.email === email);
-        
+        const storedUsers = localStorage.getItem('users');
+        const parsedUsers: User[] = storedUsers ? JSON.parse(storedUsers) : [];
+
+        const existingUser = parsedUsers.find(u => u.email === email);
         if (existingUser) {
           setError('Email already in use');
           resolve(false);
-        } else {
-          // In a real app, you would make an API call to register the user
-          // Here we'll just simulate success
-          const newUser = {
-            id: String(mockUsers.length + 1),
-            name,
-            email,
-            avatar: undefined // No avatar for new users
-          };
-          
-          setUser(newUser);
-          setIsAuthenticated(true);
-          localStorage.setItem('user', JSON.stringify(newUser));
-          resolve(true);
+          return;
         }
-      }, 1000); // Simulate network delay
+
+        const newUser: User = {
+          id: crypto.randomUUID(),
+          name,
+          email,
+          avatar: undefined,
+          password,
+          isCurrent: true
+        };
+
+        const updatedUsers = [
+          ...parsedUsers.map(u => ({ ...u, isCurrent: false })),
+          newUser
+        ];
+
+        localStorage.setItem('users', JSON.stringify(updatedUsers));
+        setUser(newUser);
+        setIsAuthenticated(true);
+        resolve(true);
+      }, 1000);
     });
   };
 
   const logout = () => {
     setUser(null);
     setIsAuthenticated(false);
-    localStorage.removeItem('user');
+    setError(null);
+
+    const storedUsers = localStorage.getItem('users');
+    const parsedUsers: User[] = storedUsers ? JSON.parse(storedUsers) : [];
+
+    const updatedUsers = parsedUsers.map(u => ({
+      ...u,
+      isCurrent: false
+    }));
+
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
   };
 
   const value = {

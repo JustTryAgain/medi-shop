@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, ChevronRight, ArrowRight } from 'lucide-react';
 import ProductCard from '../components/products/ProductCard';
 import { useLanguage } from '../contexts/LanguageContext';
 import translations from '../data/translations';
-import products from '../data/products';
+import getProducts from '../data/products';
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -12,13 +12,14 @@ const HomePage = () => {
   const t = translations[language];
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
+  const products = getProducts(t);
 
   // Get featured products (with discount)
   useEffect(() => {
     const featured = products
       .filter(product => product.discount)
       .slice(0, 4);
-      
+
     setFeaturedProducts(featured);
   }, []);
 
@@ -27,11 +28,11 @@ const HomePage = () => {
     const popular = products
       .sort((a, b) => b.rating - a.rating)
       .slice(0, 4);
-      
+
     setPopularProducts(popular);
   }, []);
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = (e: FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       window.location.href = `/products?search=${encodeURIComponent(searchQuery)}`;
@@ -53,7 +54,7 @@ const HomePage = () => {
             <p className="text-lg md:text-xl mb-8 text-blue-100">
               {t.footerTagline}
             </p>
-            
+
             {/* Search Bar */}
             <form onSubmit={handleSearch} className="relative max-w-xl mx-auto">
               <input
@@ -63,16 +64,16 @@ const HomePage = () => {
                 placeholder={t.searchPlaceholder}
                 className="w-full py-3 px-5 pr-12 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-white text-gray-800 text-lg"
               />
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-600"
               >
-                <Search size={20} />
+                <Search size={20}/>
               </button>
             </form>
           </div>
         </div>
-        
+
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-white"></div>
@@ -87,18 +88,18 @@ const HomePage = () => {
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
               {t.featured}
             </h2>
-            <Link 
-              to="/products" 
+            <Link
+              to="/products"
               className="flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
             >
               {t.shopNow}
-              <ChevronRight size={16} className="ml-1" />
+              <ChevronRight size={16} className="ml-1"/>
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product}/>
             ))}
           </div>
         </div>
@@ -107,7 +108,8 @@ const HomePage = () => {
       {/* Special Offer Banner */}
       <section className="py-8 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 md:p-8">
+          <div
+            className="flex flex-col md:flex-row items-center justify-between bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 md:p-8">
             <div className="mb-6 md:mb-0 md:mr-10">
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-3">
                 {t.discountBanner}
@@ -119,19 +121,21 @@ const HomePage = () => {
                 <input
                   type="email"
                   placeholder={t.emailPlaceholder}
-                  className="flex-grow px-4 py-2 rounded-l-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="flex-grow px-4 py-2 rounded-l-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 />
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
+                  // Todo onclick
+                  onClick={(e) => e.preventDefault()}
                   className="px-4 py-2 bg-blue-600 text-white font-medium rounded-r-md hover:bg-blue-700 transition-colors"
                 >
                   {t.subscribe}
                 </button>
               </form>
             </div>
-            <img 
-              src="https://images.pexels.com/photos/208512/pexels-photo-208512.jpeg?auto=compress&cs=tinysrgb&w=600" 
-              alt="Offer" 
+            <img
+              src="https://images.pexels.com/photos/208512/pexels-photo-208512.jpeg?auto=compress&cs=tinysrgb&w=600"
+              alt="Offer"
               className="w-full md:w-56 h-40 object-cover rounded-lg"
             />
           </div>
@@ -145,18 +149,18 @@ const HomePage = () => {
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
               {t.popularProducts}
             </h2>
-            <Link 
-              to="/products" 
+            <Link
+              to="/products"
               className="flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
             >
               {t.shopNow}
-              <ChevronRight size={16} className="ml-1" />
+              <ChevronRight size={16} className="ml-1"/>
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {popularProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product}/>
             ))}
           </div>
         </div>
@@ -168,10 +172,10 @@ const HomePage = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
             {t.categories}
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map(category => (
-              <Link 
+              <Link
                 key={category}
                 to={`/products?category=${encodeURIComponent(category)}`}
                 className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow group"
@@ -179,7 +183,8 @@ const HomePage = () => {
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   {category}
                 </h3>
-                <ArrowRight size={20} className="text-blue-600 dark:text-blue-400 transform group-hover:translate-x-1 transition-transform" />
+                <ArrowRight size={20}
+                            className="text-blue-600 dark:text-blue-400 transform group-hover:translate-x-1 transition-transform"/>
               </Link>
             ))}
           </div>

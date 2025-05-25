@@ -190,20 +190,6 @@ const ProfilePage = () => {
                       </label>
                       <p className="text-gray-900 dark:text-white">{user?.email}</p>
                     </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
-                        Phone Number
-                      </label>
-                      <p className="text-gray-900 dark:text-white">+1 (555) 123-4567</p>
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
-                        Date of Birth
-                      </label>
-                      <p className="text-gray-900 dark:text-white">January 1, 1990</p>
-                    </div>
                   </div>
                   
                   <div className="mt-8">
@@ -218,7 +204,7 @@ const ProfilePage = () => {
                     </div>
                     
                     <p className="text-gray-600 dark:text-gray-400">
-                      Your password was last changed on March 15, 2024.
+                      Your password was last changed never
                     </p>
                   </div>
                 </div>

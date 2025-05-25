@@ -1,73 +1,4 @@
-interface Translation {
-  home: string;
-  products: string;
-  cart: string;
-  favorites: string;
-  profile: string;
-  login: string;
-  register: string;
-  termsAndPolicy: string;
-  privacyPolicy: string;
-  searchPlaceholder: string;
-  footerTagline: string;
-  quickLinks: string;
-  legal: string;
-  contactUs: string;
-  allRightsReserved: string;
-  shippingPolicy: string;
-  returnsPolicy: string;
-  addToCart: string;
-  addToFavorites: string;
-  removeFromFavorites: string;
-  price: string;
-  checkout: string;
-  continueShopping: string;
-  emptyCart: string;
-  emptyCartMessage: string;
-  total: string;
-  subtotal: string;
-  tax: string;
-  shipping: string;
-  logOut: string;
-  welcome: string;
-  featured: string;
-  popularProducts: string;
-  shopNow: string;
-  categories: string;
-  reviews: string;
-  description: string;
-  relatedProducts: string;
-  quantity: string;
-  available: string;
-  outOfStock: string;
-  discountBanner: string;
-  emailPlaceholder: string;
-  subscribe: string;
-  paymentSuccessful: string;
-  paymentFailed: string;
-  orderDetails: string;
-  orderConfirmation: string;
-  thankYou: string;
-  orderNumber: string;
-  orderDate: string;
-  orderStatus: string;
-  shippingAddress: string;
-  billingAddress: string;
-  paymentMethod: string;
-  continueToPay: string;
-  paymentInformation: string;
-  shippingInformation: string;
-  placeOrder: string;
-  orderSummary: string;
-  emptyFavorites: string;
-  emptyFavoritesMessage: string;
-}
-
-interface Translations {
-  [key: string]: Translation;
-}
-
-const translations: Translations = {
+const translations = {
   en: {
     home: 'Home',
     products: 'Products',
@@ -82,6 +13,7 @@ const translations: Translations = {
     footerTagline: 'Your trusted online pharmacy for all your health needs.',
     quickLinks: 'Quick Links',
     legal: 'Legal',
+    sortBy: 'sort by',
     contactUs: 'Contact Us',
     allRightsReserved: 'All rights reserved.',
     shippingPolicy: 'Shipping Policy',
@@ -99,7 +31,7 @@ const translations: Translations = {
     tax: 'Tax',
     shipping: 'Shipping',
     logOut: 'Log Out',
-    welcome: 'Welcome to MediShop',
+    welcome: 'Welcome to Med+',
     featured: 'Featured Products',
     popularProducts: 'Popular Products',
     shopNow: 'Shop Now',
@@ -130,71 +62,148 @@ const translations: Translations = {
     placeOrder: 'Place Order',
     orderSummary: 'Order Summary',
     emptyFavorites: 'Your favorites list is empty',
-    emptyFavoritesMessage: 'You haven\'t added any products to your favorites yet. Discover our products!'
+    emptyFavoritesMessage: 'You haven\'t added any products to your favorites yet. Discover our products!',
+    productsT: [
+      {
+        name: 'Ibuprofen',
+        description: 'Best medicine when you have pain',
+        category: 'Pain Relief',
+        image: 'https://root.cdntbl.com/img/goods/90b863b2-77a1-4408-9b19-d2a83acceeb4/1/img_0.jpg?v=AAAAAA3QKEY',
+        dosage: '200mg Tablets',
+        manufacturer: 'Ibuprofen-Darnica',
+        tags: ['pain relief', 'fever reducer', 'headache']
+      },
+      {
+        name: 'Paracetamol',
+        description: 'Effective for fever and mild pain',
+        category: 'Pain Relief',
+        image: 'https://example.com/images/paracetamol.jpg',
+        dosage: '500mg Tablets',
+        manufacturer: 'Pharma Inc.',
+        tags: ['fever', 'pain', 'cold']
+      },
+      {
+        name: 'Aspirin',
+        description: 'Used for pain and inflammation',
+        category: 'Anti-inflammatory',
+        image: 'https://example.com/images/aspirin.jpg',
+        dosage: '100mg Tablets',
+        manufacturer: 'Bayer',
+        tags: ['inflammation', 'pain', 'cardiovascular']
+      },
+      {
+        name: 'Vitamin C',
+        description: 'Supports immune health',
+        category: 'Vitamins',
+        image: 'https://example.com/images/vitamin-c.jpg',
+        dosage: '1000mg Tablets',
+        manufacturer: 'HealthLife',
+        tags: ['immune system', 'vitamins', 'antioxidant']
+      }
+    ]
   },
-  es: {
-    home: 'Inicio',
-    products: 'Productos',
-    cart: 'Carrito',
-    favorites: 'Favoritos',
-    profile: 'Perfil',
-    login: 'Iniciar Sesión',
-    register: 'Registrarse',
-    termsAndPolicy: 'Términos y Políticas',
-    privacyPolicy: 'Política de Privacidad',
-    searchPlaceholder: 'Buscar medicamentos...',
-    footerTagline: 'Su farmacia en línea de confianza para todas sus necesidades de salud.',
-    quickLinks: 'Enlaces Rápidos',
-    legal: 'Legal',
-    contactUs: 'Contáctenos',
-    allRightsReserved: 'Todos los derechos reservados.',
-    shippingPolicy: 'Política de Envíos',
-    returnsPolicy: 'Política de Devoluciones',
-    addToCart: 'Añadir al Carrito',
-    addToFavorites: 'Añadir a Favoritos',
-    removeFromFavorites: 'Quitar de Favoritos',
-    price: 'Precio',
-    checkout: 'Pagar',
-    continueShopping: 'Seguir Comprando',
-    emptyCart: 'Tu carrito está vacío',
-    emptyCartMessage: 'No tienes artículos en tu carrito de compras. ¡Vamos a comprar algo!',
-    total: 'Total',
-    subtotal: 'Subtotal',
-    tax: 'Impuestos',
-    shipping: 'Envío',
-    logOut: 'Cerrar Sesión',
-    welcome: 'Bienvenido a MediShop',
-    featured: 'Productos Destacados',
-    popularProducts: 'Productos Populares',
-    shopNow: 'Comprar Ahora',
-    categories: 'Categorías',
-    reviews: 'Reseñas',
-    description: 'Descripción',
-    relatedProducts: 'Productos Relacionados',
-    quantity: 'Cantidad',
-    available: 'Disponible',
-    outOfStock: 'Agotado',
-    discountBanner: 'Oferta Especial: 10% de descuento en tu primer pedido con el código FIRST10',
-    emailPlaceholder: 'Tu dirección de correo electrónico',
-    subscribe: 'Suscribirse',
-    paymentSuccessful: 'Pago Exitoso',
-    paymentFailed: 'Pago Fallido',
-    orderDetails: 'Detalles del Pedido',
-    orderConfirmation: 'Confirmación del Pedido',
-    thankYou: '¡Gracias por tu pedido!',
-    orderNumber: 'Número de Pedido',
-    orderDate: 'Fecha del Pedido',
-    orderStatus: 'Estado del Pedido',
-    shippingAddress: 'Dirección de Envío',
-    billingAddress: 'Dirección de Facturación',
-    paymentMethod: 'Método de Pago',
-    continueToPay: 'Continuar al Pago',
-    paymentInformation: 'Información de Pago',
-    shippingInformation: 'Información de Envío',
-    placeOrder: 'Realizar Pedido',
-    orderSummary: 'Resumen del Pedido',
-    emptyFavorites: 'Tu lista de favoritos está vacía',
-    emptyFavoritesMessage: 'Aún no has añadido ningún producto a tus favoritos. ¡Descubre nuestros productos!'
+  ua: {
+    home: 'Головна',
+    products: 'Продукти',
+    cart: 'Кошик',
+    sortBy: 'сортувати по',
+    favorites: 'Улюблені',
+    profile: 'Профіль',
+    login: 'Увійти',
+    register: 'Реєстрація',
+    termsAndPolicy: 'Умови та політика',
+    privacyPolicy: 'Політика конфіденційності',
+    searchPlaceholder: 'Пошук ліків...',
+    footerTagline: 'Ваш надійний онлайн-аптечний сервіс для всіх потреб у здоров’ї.',
+    quickLinks: 'Швидкі посилання',
+    legal: 'Правова інформація',
+    contactUs: 'Зв’яжіться з нами',
+    allRightsReserved: 'Всі права захищені.',
+    shippingPolicy: 'Політика доставки',
+    returnsPolicy: 'Політика повернення',
+    addToCart: 'Додати до кошика',
+    addToFavorites: 'Додати до улюблених',
+    removeFromFavorites: 'Видалити з улюблених',
+    price: 'Ціна',
+    checkout: 'Оформити замовлення',
+    continueShopping: 'Продовжити покупки',
+    emptyCart: 'Ваш кошик порожній',
+    emptyCartMessage: 'У вашому кошику немає товарів. Пора щось придбати!',
+    total: 'Разом',
+    subtotal: 'Підсумок',
+    tax: 'Податок',
+    shipping: 'Доставка',
+    logOut: 'Вийти',
+    welcome: 'Ласкаво просимо до Med+',
+    featured: 'Рекомендовані товари',
+    popularProducts: 'Популярні товари',
+    shopNow: 'Купити зараз',
+    categories: 'Категорії',
+    reviews: 'Відгуки',
+    description: 'Опис',
+    relatedProducts: 'Схожі товари',
+    quantity: 'Кількість',
+    available: 'В наявності',
+    outOfStock: 'Немає в наявності',
+    discountBanner: 'Спеціальна пропозиція: 10% знижка на перше замовлення з кодом FIRST10',
+    emailPlaceholder: 'Ваша електронна адреса',
+    subscribe: 'Підписатися',
+    paymentSuccessful: 'Оплата успішна',
+    paymentFailed: 'Оплата не вдалася',
+    orderDetails: 'Деталі замовлення',
+    orderConfirmation: 'Підтвердження замовлення',
+    thankYou: 'Дякуємо за ваше замовлення!',
+    orderNumber: 'Номер замовлення',
+    orderDate: 'Дата замовлення',
+    orderStatus: 'Статус замовлення',
+    shippingAddress: 'Адреса доставки',
+    billingAddress: 'Платіжна адреса',
+    paymentMethod: 'Спосіб оплати',
+    continueToPay: 'Перейти до оплати',
+    paymentInformation: 'Інформація про оплату',
+    shippingInformation: 'Інформація про доставку',
+    placeOrder: 'Розмістити замовлення',
+    orderSummary: 'Підсумок замовлення',
+    emptyFavorites: 'Ваш список улюблених порожній',
+    emptyFavoritesMessage: 'Ви ще не додали товари до улюблених. Ознайомтеся з нашими продуктами!',
+    productsT: [
+      {
+        name: 'Ібупрофен',
+        description: 'Найкращі ліки при болю',
+        category: 'Знеболювальне',
+        image: 'https://root.cdntbl.com/img/goods/90b863b2-77a1-4408-9b19-d2a83acceeb4/1/img_0.jpg?v=AAAAAA3QKEY',
+        dosage: '200мг таблетки',
+        manufacturer: 'Ібупрофен-Дарниця',
+        tags: ['знеболювальне', 'зниження температури', 'головний біль']
+      },
+      {
+        name: 'Парацетамол',
+        description: 'Ефективний при гарячці та легкому болі',
+        category: 'Знеболювальне',
+        image: 'https://example.com/images/paracetamol.jpg',
+        dosage: '500мг таблетки',
+        manufacturer: 'Фарма Інк.',
+        tags: ['температура', 'біль', 'застуда']
+      },
+      {
+        name: 'Аспірин',
+        description: 'Використовується при болю та запаленні',
+        category: 'Протизапальні',
+        image: 'https://example.com/images/aspirin.jpg',
+        dosage: '100мг таблетки',
+        manufacturer: 'Байєр',
+        tags: ['запалення', 'біль', 'серцево-судинна система']
+      },
+      {
+        name: 'Вітамін С',
+        description: 'Підтримує імунну систему',
+        category: 'Вітаміни',
+        image: 'https://example.com/images/vitamin-c.jpg',
+        dosage: '1000мг таблетки',
+        manufacturer: 'HealthLife',
+        tags: ['імунітет', 'вітаміни', 'антиоксидант']
+      }
+    ]
   }
 };
 

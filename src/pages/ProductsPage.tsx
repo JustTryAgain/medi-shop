@@ -4,7 +4,7 @@ import { Filter, Search, X } from 'lucide-react';
 import ProductCard from '../components/products/ProductCard';
 import { useLanguage } from '../contexts/LanguageContext';
 import translations from '../data/translations';
-import products, { Product } from '../data/products';
+import getProducts, { Product } from '../data/products';
 
 const ProductsPage = () => {
   const location = useLocation();
@@ -20,6 +20,7 @@ const ProductsPage = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const { language } = useLanguage();
   const t = translations[language];
+  const products = getProducts(t);
 
   // Extract all categories from products
   const categories = ['All', ...new Set(products.map(p => p.category))];
@@ -336,7 +337,7 @@ const ProductsPage = () => {
             {/* Sort Controls */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mb-6 flex flex-wrap justify-between items-center">
               <div className="mb-2 sm:mb-0">
-                <span className="text-gray-600 dark:text-gray-400 mr-2">Sort by:</span>
+                <span className="text-gray-600 dark:text-gray-400 mr-2">{t.sortBy}</span>
                 <select
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value)}

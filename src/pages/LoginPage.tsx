@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogIn, User } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import translations from '../data/translations';
@@ -83,14 +83,7 @@ const LoginPage = () => {
             <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
               {t.login}
             </h1>
-            
-            {/* Demo info */}
-            <div className="mb-6 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-md text-sm text-gray-600 dark:text-gray-300">
-              <p className="font-medium text-blue-700 dark:text-blue-400 mb-1">Demo Account:</p>
-              <p>Email: john@example.com</p>
-              <p>Password: password123</p>
-            </div>
-            
+
             {localError && (
               <div className="mb-6 p-3 bg-red-50 dark:bg-red-900/30 rounded-md text-sm text-red-600 dark:text-red-400">
                 {localError}
