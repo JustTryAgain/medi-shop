@@ -4,12 +4,13 @@ import { Filter, Search, X } from 'lucide-react';
 import ProductCard from '../components/products/ProductCard';
 import { useLanguage } from '../contexts/LanguageContext';
 import translations from '../data/translations';
+
 import getProducts, { Product } from '../data/products';
 
 const ProductsPage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const initialSearch = queryParams.get('search') || '';
+  const initialSearch = queryParams.get(`Search`) || '';
   const initialCategory = queryParams.get('category') || '';
   
   const [searchQuery, setSearchQuery] = useState(initialSearch);
@@ -20,6 +21,7 @@ const ProductsPage = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const { language } = useLanguage();
   const t = translations[language];
+
   const products = getProducts(t);
 
   // Extract all categories from products
@@ -188,7 +190,7 @@ const ProductsPage = () => {
               {/* Price Range */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                  Price Range
+                  {t.priceRange}
                 </h3>
                 <div className="px-2">
                   <input
@@ -211,7 +213,7 @@ const ProductsPage = () => {
                 onClick={clearFilters}
                 className="w-full py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               >
-                Clear Filters
+                {t.clearFilters}
               </button>
             </div>
           </div>
@@ -293,7 +295,7 @@ const ProductsPage = () => {
               {/* Mobile Price Range */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                  Price Range
+                  {t.priceRange}
                 </h3>
                 <div className="px-2">
                   <input
@@ -316,7 +318,7 @@ const ProductsPage = () => {
                 onClick={() => setMobileFiltersOpen(false)}
                 className="w-full py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors mb-3"
               >
-                Apply Filters
+                {t.applyFilters}
               </button>
 
               {/* Clear Filters */}
@@ -327,7 +329,7 @@ const ProductsPage = () => {
                 }}
                 className="w-full py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               >
-                Clear Filters
+                {t.clearFilters}
               </button>
             </div>
           </div>
@@ -351,19 +353,19 @@ const ProductsPage = () => {
               </div>
               
               <span className="text-sm text-gray-600 dark:text-gray-400">
-                Showing {filteredProducts.length} of {products.length} products
+                {t.sh} {filteredProducts.length} {t.of} {products.length} {t.prod}
               </span>
             </div>
 
             {/* Product Grid */}
             {filteredProducts.length === 0 ? (
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 text-center">
-                <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">No products found matching your criteria.</p>
+                <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">{t.noProdFnd}</p>
                 <button
                   onClick={clearFilters}
                   className="py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
                 >
-                  Clear Filters
+                  {t.clearFilters}
                 </button>
               </div>
             ) : (

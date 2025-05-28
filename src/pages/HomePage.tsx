@@ -115,7 +115,7 @@ const HomePage = () => {
                 {t.discountBanner}
               </h3>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Subscribe to our newsletter for exclusive offers and health tips.
+                {t.subscribeToNews}
               </p>
               <form className="flex w-full max-w-md">
                 <input

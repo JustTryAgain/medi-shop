@@ -96,7 +96,7 @@ const LoginPage = () => {
                   htmlFor="email" 
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
-                  Email
+                  {t.email}
                 </label>
                 <input
                   type="email"
@@ -113,7 +113,7 @@ const LoginPage = () => {
                   htmlFor="password" 
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
-                  Password
+                  {t.password}
                 </label>
                 <input
                   type="password"
@@ -144,7 +144,7 @@ const LoginPage = () => {
             
             <div className="mt-6 text-center">
               <p className="text-gray-600 dark:text-gray-400">
-                Don't have an account?{' '}
+                {t.dntAccount}{' '}
                 <Link to="/register" className="text-blue-600 dark:text-blue-400 hover:underline">
                   {t.register}
                 </Link>

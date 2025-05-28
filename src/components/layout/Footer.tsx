@@ -14,10 +14,8 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <Link to="/" className="flex items-center mb-4">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 mr-2">
-                <span className="text-white font-bold text-xl">M</span>
-              </div>
-              <span className="font-bold text-xl text-gray-900 dark:text-white">MediShop</span>
+
+              <img alt="logo icon" src="/icons/MedPlusLogo.png" className="cursor-pointer w-12 h-12 rounded-full border-2 border-blue-600" />
             </Link>
             <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
               {t.footerTagline}
@@ -95,11 +93,11 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <Mail size={18} className="mr-2 text-gray-600 dark:text-gray-400 mt-0.5" />
-                <span className="text-gray-600 dark:text-gray-400">support@medishop.com</span>
+                <span className="text-gray-600 dark:text-gray-400">support@medplus.com</span>
               </li>
               <li className="flex items-start">
                 <Phone size={18} className="mr-2 text-gray-600 dark:text-gray-400 mt-0.5" />
-                <span className="text-gray-600 dark:text-gray-400">+1 (555) 123-4567</span>
+                <span className="text-gray-600 dark:text-gray-400">+38 (096)-932-4567</span>
               </li>
             </ul>
           </div>
@@ -107,7 +105,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-6 text-center">
           <p className="text-gray-600 dark:text-gray-400 text-sm">
-            &copy; {new Date().getFullYear()} MediShop. {t.allRightsReserved}
+            &copy; {new Date().getFullYear()} MED+. {t.allRightsReserved}
           </p>
         </div>
       </div>

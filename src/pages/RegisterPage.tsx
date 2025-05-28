@@ -116,7 +116,7 @@ const RegisterPage = () => {
                   htmlFor="name" 
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
-                  Full Name
+                  {t.fullName}
                 </label>
                 <input
                   type="text"
@@ -150,7 +150,7 @@ const RegisterPage = () => {
                   htmlFor="password" 
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
-                  Password
+                  {t.password}
                 </label>
                 <input
                   type="password"

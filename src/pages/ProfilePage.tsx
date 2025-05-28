@@ -46,7 +46,7 @@ const ProfilePage = () => {
       state: 'NY',
       zipCode: '10001',
       country: 'United States',
-      phone: '+1 (555) 123-4567',
+      phone: '+38 (096)-932-4567',
       isDefault: true
     },
     {
@@ -58,7 +58,7 @@ const ProfilePage = () => {
       state: 'NY',
       zipCode: '10022',
       country: 'United States',
-      phone: '+1 (555) 987-6543',
+      phone: '+38 (096)-932-4567',
       isDefault: true
     }
   ];
@@ -108,7 +108,7 @@ const ProfilePage = () => {
                       }`}
                     >
                       <User size={18} className="mr-3" />
-                      Profile Information
+                      {t.profileInformation}
                     </button>
                   </li>
                   <li>
@@ -121,7 +121,7 @@ const ProfilePage = () => {
                       }`}
                     >
                       <ShoppingBag size={18} className="mr-3" />
-                      My Orders
+                      {t.myOrders}
                     </button>
                   </li>
                   <li>
@@ -134,7 +134,7 @@ const ProfilePage = () => {
                       }`}
                     >
                       <MapPin size={18} className="mr-3" />
-                      My Addresses
+                      {t.myAddress}
                     </button>
                   </li>
                   <li>
@@ -143,7 +143,7 @@ const ProfilePage = () => {
                       className="w-full flex items-center px-4 py-3 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
                       <Heart size={18} className="mr-3" />
-                      My Favorites
+                      {t.myFavorite}
                     </Link>
                   </li>
                   <li>
@@ -168,25 +168,25 @@ const ProfilePage = () => {
                 <div className="p-6">
                   <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                      Profile Information
+                      {t.profileInformation}
                     </h2>
                     <button className="flex items-center text-blue-600 dark:text-blue-400 hover:underline">
                       <Edit size={16} className="mr-1" />
-                      Edit Profile
+                      {t.editProfile}
                     </button>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
-                        Full Name
+                        {t.fullName}
                       </label>
                       <p className="text-gray-900 dark:text-white">{user?.name}</p>
                     </div>
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
-                        Email Address
+                        {t.email}
                       </label>
                       <p className="text-gray-900 dark:text-white">{user?.email}</p>
                     </div>
@@ -195,16 +195,16 @@ const ProfilePage = () => {
                   <div className="mt-8">
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                        Security
+                        {t.security}
                       </h3>
                       <button className="flex items-center text-blue-600 dark:text-blue-400 hover:underline">
                         <Key size={16} className="mr-1" />
-                        Change Password
+                        {t.changePass}
                       </button>
                     </div>
                     
                     <p className="text-gray-600 dark:text-gray-400">
-                      Your password was last changed never
+                      {t.changeLastPass}
                     </p>
                   </div>
                 </div>
@@ -214,7 +214,7 @@ const ProfilePage = () => {
               {activeTab === 'orders' && (
                 <div className="p-6">
                   <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
-                    My Orders
+                    {t.myOrders}
                   </h2>
                   
                   {orders.length === 0 ? (
@@ -228,22 +228,22 @@ const ProfilePage = () => {
                         <thead className="bg-gray-50 dark:bg-gray-700">
                           <tr>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                              Order ID
+                              {t.orderId}
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                              Date
+                              {t.orderDate}
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                              Status
+                              {t.orderStatus}
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                              Total
+                              {t.totalI}
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                              Items
+                              {t.items}
                             </th>
                             <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                              Action
+                              {t.action}
                             </th>
                           </tr>
                         </thead>

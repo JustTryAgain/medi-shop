@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, } from 'react-router-dom';
 import { CreditCard, Check, ArrowLeft } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -9,7 +9,7 @@ import translations from '../data/translations';
 const CheckoutPage = () => {
   const { cart, getCartTotal, clearCart } = useCart();
   const { user } = useAuth();
-  const navigate = useNavigate();
+
   const { language } = useLanguage();
   const t = translations[language];
   
@@ -246,7 +246,7 @@ const CheckoutPage = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="md:col-span-2">
                         <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Full Name*
+                          {t.fullName}*
                         </label>
                         <input
                           type="text"
@@ -379,7 +379,7 @@ const CheckoutPage = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div className="md:col-span-2">
                             <label htmlFor="billingFullName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                              Full Name*
+                              {t.fullName}*
                             </label>
                             <input
                               type="text"
