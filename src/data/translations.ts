@@ -69,6 +69,9 @@ const translations = {
     editProfile: "Edit Profile",
     items:`Items`,
     total: "Total",
+    notFound: `The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.`,
+    goToHome:`Go to Homepage`,
+    browseProducts: "Browse Products",
 
     action: "Action",
     all: 'All',
@@ -472,7 +475,10 @@ const translations = {
     editProfile: "Редагувати профіль",
     items:`Товар`,
     total: "Всього",
+    goToHome:`На головну`,
+    browseProducts: "До продуктів",
 
+    notFound: `Можливо, сторінку, яку ви шукаєте, видалили, її назву змінили або вона тимчасово недоступна.`,
     action: "Дія",
     all: 'Все',
     allRightsReserved: 'Всі права захищені.',
