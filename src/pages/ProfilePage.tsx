@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { LogOut, User, MapPin, ShoppingBag, Heart, Edit, Key } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useOrders } from '../contexts/OrderContext';
 import translations from '../data/translations';
 import { Link, useNavigate } from 'react-router-dom';
 
 const ProfilePage = () => {
   const { user, logout } = useAuth();
   const { language } = useLanguage();
+  const { orders, addresses, removeAddress, updateAddress } = useOrders();
   const t = translations[language];
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('profile');
@@ -17,51 +19,21 @@ const ProfilePage = () => {
     navigate('/');
   };
 
-  // Mock orders data
-  const orders = [
-    {
-      id: 'ORD-1234',
-      date: '2024-04-10',
-      status: 'Delivered',
-      total: 75.99,
-      items: 3
-    },
-    {
-      id: 'ORD-5678',
-      date: '2024-03-25',
-      status: 'Processing',
-      total: 145.50,
-      items: 5
+  const handleDeleteAddress = (id: number) => {
+    if (window.confirm('Are you sure you want to delete this address?')) {
+      removeAddress(id);
     }
-  ];
+  };
 
-  // Mock address data
-  const addresses = [
-    {
-      id: 1,
-      type: 'Shipping',
-      name: user?.name,
-      address: '123 Main Street',
-      city: 'New York',
-      state: 'NY',
-      zipCode: '10001',
-      country: 'United States',
-      phone: '+38 (096)-932-4567',
-      isDefault: true
-    },
-    {
-      id: 2,
-      type: 'Billing',
-      name: user?.name,
-      address: '456 Park Avenue',
-      city: 'New York',
-      state: 'NY',
-      zipCode: '10022',
-      country: 'United States',
-      phone: '+38 (096)-932-4567',
-      isDefault: true
-    }
-  ];
+  const handleSetDefaultAddress = (id: number, type: string) => {
+    // First, remove default status from all addresses of the same type
+    addresses
+      .filter(addr => addr.type === type && addr.isDefault)
+      .forEach(addr => updateAddress(addr.id, { isDefault: false }));
+    
+    // Set the selected address as default
+    updateAddress(id, { isDefault: true });
+  };
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 py-8">
@@ -220,7 +192,7 @@ const ProfilePage = () => {
                   {orders.length === 0 ? (
                     <div className="text-center py-8">
                       <ShoppingBag className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500 mb-4" />
-                      <p className="text-gray-600 dark:text-gray-400">You haven't placed any orders yet.</p>
+                      <p className="text-gray-600 dark:text-gray-400">{t.noOrders}</p>
                     </div>
                   ) : (
                     <div className="overflow-x-auto">
@@ -323,10 +295,17 @@ const ProfilePage = () => {
                         </div>
                         
                         <div className="mt-4 flex space-x-3">
-                          <button className="text-blue-600 dark:text-blue-400 hover:underline text-sm">
-                            Edit
+                          <button 
+                            onClick={() => handleSetDefaultAddress(address.id, address.type)}
+                            className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+                            disabled={address.isDefault}
+                          >
+                            Set as Default
                           </button>
-                          <button className="text-red-600 dark:text-red-400 hover:underline text-sm">
+                          <button 
+                            onClick={() => handleDeleteAddress(address.id)}
+                            className="text-red-600 dark:text-red-400 hover:underline text-sm"
+                          >
                             Delete
                           </button>
                         </div>

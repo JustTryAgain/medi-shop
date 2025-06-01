@@ -38,9 +38,9 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
         }`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-5 flex flex-col h-full">
+        <div className="p-5 flex flex-col h-full bg-gray-50 dark:bg-gray-800 rounded-lg">
           {/* Search */}
-          <form onSubmit={handleSearch} className="mb-5">
+          <form onSubmit={handleSearch} className="mb-5 bg-gray-50 dark:bg-gray-800 rounded-lg">
             <div className="relative">
               <input
                 type="text"
@@ -59,7 +59,7 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           </form>
 
           {/* Navigation */}
-          <nav className="flex-1">
+          <nav className="flex-1  bg-gray-50 dark:bg-gray-800 rounded-lg">
             <ul className="space-y-4">
               <li>
                 <Link 
@@ -128,7 +128,7 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           </nav>
 
           {/* Footer */}
-          <div className="pt-4 border-t border-gray-200 dark:border-gray-700 mt-auto">
+          <div className="pt-4 border-t border-gray-200 dark:border-gray-700 mt-auto bg-gray-50 dark:bg-gray-800 rounded-lg">
             <Link 
               to="/terms" 
               className="block py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"

@@ -1,16 +1,17 @@
-import { useState } from 'react';
-import { Link, } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { CreditCard, Check, ArrowLeft } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useOrders } from '../contexts/OrderContext';
 import translations from '../data/translations';
 
 const CheckoutPage = () => {
   const { cart, getCartTotal, clearCart } = useCart();
   const { user } = useAuth();
-
   const { language } = useLanguage();
+  const { addOrder, addAddress, addresses, getDefaultAddress } = useOrders();
   const t = translations[language];
   
   const [step, setStep] = useState(1);
@@ -46,6 +47,36 @@ const CheckoutPage = () => {
     expiryDate: '',
     cvv: ''
   });
+  
+  // Load default addresses if available
+  useEffect(() => {
+    const defaultShipping = getDefaultAddress('Shipping');
+    const defaultBilling = getDefaultAddress('Billing');
+
+    if (defaultShipping) {
+      setShippingForm({
+        fullName: defaultShipping.name,
+        address: defaultShipping.address,
+        city: defaultShipping.city,
+        state: defaultShipping.state,
+        zipCode: defaultShipping.zipCode,
+        country: defaultShipping.country,
+        phone: defaultShipping.phone,
+        sameAsBilling: true
+      });
+    }
+
+    if (defaultBilling) {
+      setBillingForm({
+        fullName: defaultBilling.name,
+        address: defaultBilling.address,
+        city: defaultBilling.city,
+        state: defaultBilling.state,
+        zipCode: defaultBilling.zipCode,
+        country: defaultBilling.country
+      });
+    }
+  }, [getDefaultAddress]);
   
   // Calculate order summary values
   const subtotal = getCartTotal();
@@ -98,6 +129,37 @@ const CheckoutPage = () => {
   
   const handleContinueToPayment = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Save shipping address
+    const shippingAddress = {
+      type: 'Shipping',
+      name: shippingForm.fullName,
+      address: shippingForm.address,
+      city: shippingForm.city,
+      state: shippingForm.state,
+      zipCode: shippingForm.zipCode,
+      country: shippingForm.country,
+      phone: shippingForm.phone,
+      isDefault: !addresses.some(addr => addr.type === 'Shipping' && addr.isDefault)
+    };
+    addAddress(shippingAddress);
+
+    // Save billing address if different
+    if (!shippingForm.sameAsBilling) {
+      const billingAddress = {
+        type: 'Billing',
+        name: billingForm.fullName,
+        address: billingForm.address,
+        city: billingForm.city,
+        state: billingForm.state,
+        zipCode: billingForm.zipCode,
+        country: billingForm.country,
+        phone: shippingForm.phone, // Use shipping phone for billing as well
+        isDefault: !addresses.some(addr => addr.type === 'Billing' && addr.isDefault)
+      };
+      addAddress(billingAddress);
+    }
+
     setStep(2);
     window.scrollTo(0, 0);
   };
@@ -106,8 +168,54 @@ const CheckoutPage = () => {
     e.preventDefault();
     setIsProcessing(true);
     
+    // Create the order
+    const orderData = {
+      status: 'Processing',
+      total,
+      items: cart.reduce((sum, item) => sum + item.quantity, 0),
+      shippingAddress: {
+        type: 'Shipping',
+        name: shippingForm.fullName,
+        address: shippingForm.address,
+        city: shippingForm.city,
+        state: shippingForm.state,
+        zipCode: shippingForm.zipCode,
+        country: shippingForm.country,
+        phone: shippingForm.phone,
+        isDefault: true,
+        id: Date.now()
+      },
+      billingAddress: shippingForm.sameAsBilling
+        ? {
+            type: 'Billing',
+            name: shippingForm.fullName,
+            address: shippingForm.address,
+            city: shippingForm.city,
+            state: shippingForm.state,
+            zipCode: shippingForm.zipCode,
+            country: shippingForm.country,
+            phone: shippingForm.phone,
+            isDefault: true,
+            id: Date.now() + 1
+          }
+        : {
+            type: 'Billing',
+            name: billingForm.fullName,
+            address: billingForm.address,
+            city: billingForm.city,
+            state: billingForm.state,
+            zipCode: billingForm.zipCode,
+            country: billingForm.country,
+            phone: shippingForm.phone,
+            isDefault: true,
+            id: Date.now() + 1
+          },
+      paymentMethod
+    };
+
     // Simulate order processing
     setTimeout(() => {
+      addOrder(orderData);
       setIsProcessing(false);
       setOrderComplete(true);
       setOrderNumber(`ORD-${Math.floor(100000 + Math.random() * 900000)}`);

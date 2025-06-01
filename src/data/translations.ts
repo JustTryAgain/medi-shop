@@ -159,6 +159,7 @@ const translations = {
     thankYou: 'Thank you for your order!',
     totalI: 'Total',
     welcome: 'Welcome to MED+',
+    noOrders: "You haven't placed any orders yet.",
 
     productsT: [
       {
@@ -418,6 +419,7 @@ const translations = {
   ua: {
 
     back: 'Повернутися',
+    noOrders: "Ви ще не робили замовлень.",
 
 //Returns Policy
     returnsPolicy: 'Політика повернення',
