@@ -1,121 +1,155 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface Address {
-  id: number;
-  type: string;
-  name: string;
+  fullName: string;
   address: string;
   city: string;
   state: string;
   zipCode: string;
   country: string;
-  phone: string;
-  isDefault: boolean;
+  phone?: string;
 }
 
 interface Order {
   id: string;
   date: string;
-  status: string;
+  status: 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+  items: Array<{
+    id: string;
+    name: string;
+    quantity: number;
+    price: number;
+  }>;
   total: number;
-  items: number;
   shippingAddress: Address;
   billingAddress: Address;
-  paymentMethod: string;
 }
 
 interface OrderContextType {
   orders: Order[];
-  addresses: Address[];
-  addOrder: (order: Omit<Order, 'id' | 'date'>) => void;
-  addAddress: (address: Omit<Address, 'id'>) => void;
-  removeAddress: (id: number) => void;
-  updateAddress: (id: number, address: Partial<Address>) => void;
-  getDefaultAddress: (type: string) => Address | undefined;
+  addOrder: (order: Order) => void;
+  getOrder: (id: string) => Order | undefined;
+  savedAddresses: Address[];
+  addAddress: (address: Address) => void;
+  removeAddress: (address: Address) => void;
+  clearAddresses: () => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
-export const useOrders = () => {
+export const OrderProvider = ({ children }: { children: ReactNode }) => {
+  const [orders, setOrders] = useState<Order[]>(() => {
+    try {
+      const savedOrders = localStorage.getItem('orders');
+      return savedOrders ? JSON.parse(savedOrders) : [];
+    } catch (error) {
+      console.error('Error loading orders from localStorage:', error);
+      return [];
+    }
+  });
+
+  const [savedAddresses, setSavedAddresses] = useState<Address[]>(() => {
+    try {
+      const addresses = localStorage.getItem('savedAddresses');
+      return addresses ? JSON.parse(addresses) : [];
+    } catch (error) {
+      console.error('Error loading addresses from localStorage:', error);
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('orders', JSON.stringify(orders));
+    } catch (error) {
+      console.error('Error saving orders to localStorage:', error);
+    }
+  }, [orders]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('savedAddresses', JSON.stringify(savedAddresses));
+    } catch (error) {
+      console.error('Error saving addresses to localStorage:', error);
+    }
+  }, [savedAddresses]);
+
+  const addOrder = (order: Order) => {
+    try {
+      setOrders(prevOrders => [...prevOrders, order]);
+    } catch (error) {
+      console.error('Error adding order:', error);
+    }
+  };
+
+  const getOrder = (id: string) => {
+    try {
+      return orders.find(order => order.id === id);
+    } catch (error) {
+      console.error('Error getting order:', error);
+      return undefined;
+    }
+  };
+
+  const addAddress = (address: Address) => {
+    try {
+      setSavedAddresses(prevAddresses => {
+        const exists = prevAddresses.some(
+          addr => addr.address === address.address && 
+                 addr.city === address.city && 
+                 addr.zipCode === address.zipCode
+        );
+        return exists ? prevAddresses : [...prevAddresses, address];
+      });
+    } catch (error) {
+      console.error('Error adding address:', error);
+    }
+  };
+
+  const removeAddress = (address: Address) => {
+    try {
+      setSavedAddresses(prevAddresses =>
+        prevAddresses.filter(
+          addr => !(addr.address === address.address && 
+                   addr.city === address.city && 
+                   addr.zipCode === address.zipCode)
+        )
+      );
+    } catch (error) {
+      console.error('Error removing address:', error);
+    }
+  };
+
+  const clearAddresses = () => {
+    try {
+      setSavedAddresses([]);
+      localStorage.removeItem('savedAddresses');
+    } catch (error) {
+      console.error('Error clearing addresses:', error);
+    }
+  };
+
+  const value = {
+    orders,
+    addOrder,
+    getOrder,
+    savedAddresses,
+    addAddress,
+    removeAddress,
+    clearAddresses
+  };
+
+  return (
+    <OrderContext.Provider value={value}>
+      {children}
+    </OrderContext.Provider>
+  );
+};
+
+export const useOrders = (): OrderContextType => {
   const context = useContext(OrderContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useOrders must be used within an OrderProvider');
   }
   return context;
 };
-
-export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [addresses, setAddresses] = useState<Address[]>([]);
-
-  // Load data from localStorage on mount
-  useEffect(() => {
-    const savedOrders = localStorage.getItem('orders');
-    const savedAddresses = localStorage.getItem('addresses');
-
-    if (savedOrders) {
-      setOrders(JSON.parse(savedOrders));
-    }
-    if (savedAddresses) {
-      setAddresses(JSON.parse(savedAddresses));
-    }
-  }, []);
-
-  // Save data to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('orders', JSON.stringify(orders));
-  }, [orders]);
-
-  useEffect(() => {
-    localStorage.setItem('addresses', JSON.stringify(addresses));
-  }, [addresses]);
-
-  const addOrder = (orderData: Omit<Order, 'id' | 'date'>) => {
-    const newOrder: Order = {
-      ...orderData,
-      id: `ORD-${Math.floor(100000 + Math.random() * 900000)}`,
-      date: new Date().toISOString(),
-    };
-    setOrders(prevOrders => [newOrder, ...prevOrders]);
-  };
-
-  const addAddress = (addressData: Omit<Address, 'id'>) => {
-    const newAddress: Address = {
-      ...addressData,
-      id: Date.now(),
-    };
-    setAddresses(prevAddresses => [...prevAddresses, newAddress]);
-  };
-
-  const removeAddress = (id: number) => {
-    setAddresses(prevAddresses => prevAddresses.filter(addr => addr.id !== id));
-  };
-
-  const updateAddress = (id: number, addressData: Partial<Address>) => {
-    setAddresses(prevAddresses =>
-      prevAddresses.map(addr =>
-        addr.id === id ? { ...addr, ...addressData } : addr
-      )
-    );
-  };
-
-  const getDefaultAddress = (type: string) => {
-    return addresses.find(addr => addr.type === type && addr.isDefault);
-  };
-
-  return (
-    <OrderContext.Provider
-      value={{
-        orders,
-        addresses,
-        addOrder,
-        addAddress,
-        removeAddress,
-        updateAddress,
-        getDefaultAddress,
-      }}
-    >
-      {children}
-    </OrderContext.Provider>
-  );
-}; 

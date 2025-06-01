@@ -44,58 +44,58 @@ function App() {
 
   return (
     <ErrorBoundary>
-    <ThemeProvider>
-      <LanguageProvider>
-        <AuthProvider>
-          <CartProvider>
-            <FavoritesProvider>
-              <OrderProvider>
-              <Router>
-                <Routes>
-                  <Route path="/" element={<Layout />}>
-                    <Route index element={<HomePage />} />
-                    <Route path="products" element={<ProductsPage />} />
-                    <Route path="products/:id" element={<ProductDetailPage />} />
-                    <Route 
-                      path="profile" 
-                      element={
-                        <ProtectedRoute>
-                          <ProfilePage />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route 
-                      path="favorites" 
-                      element={
-                        <ProtectedRoute>
-                          <FavoritesPage />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route path="cart" element={<CartPage />} />
-                    <Route 
-                      path="checkout" 
-                      element={
-                        <ProtectedRoute>
-                          <CheckoutPage />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route path="terms" element={<TermsPage />} />
-                    <Route path="login" element={<LoginPage />} />
-                    <Route path="register" element={<RegisterPage />} />
-                    <Route path="*" element={<NotFoundPage />} />
-                  </Route>
-                </Routes>
-              </Router>
+      <ThemeProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <CartProvider>
+              <FavoritesProvider>
+                <OrderProvider>
+                  <Router>
+                    <Routes>
+                      <Route path="/" element={<Layout />}>
+                        <Route index element={<HomePage />} />
+                        <Route path="products" element={<ProductsPage />} />
+                        <Route path="products/:id" element={<ProductDetailPage />} />
+                        <Route 
+                          path="profile" 
+                          element={
+                            <ProtectedRoute>
+                              <ProfilePage />
+                            </ProtectedRoute>
+                          } 
+                        />
+                        <Route 
+                          path="favorites" 
+                          element={
+                            <ProtectedRoute>
+                              <FavoritesPage />
+                            </ProtectedRoute>
+                          } 
+                        />
+                        <Route path="cart" element={<CartPage />} />
+                        <Route 
+                          path="checkout" 
+                          element={
+                            <ProtectedRoute>
+                              <CheckoutPage />
+                            </ProtectedRoute>
+                          } 
+                        />
+                        <Route path="terms" element={<TermsPage />} />
+                        <Route path="login" element={<LoginPage />} />
+                        <Route path="register" element={<RegisterPage />} />
+                        <Route path="*" element={<NotFoundPage />} />
+                      </Route>
+                    </Routes>
+                  </Router>
                 </OrderProvider>
-            </FavoritesProvider>
-          </CartProvider>
-        </AuthProvider>
-      </LanguageProvider>
-    </ThemeProvider>
-</ErrorBoundary>
+              </FavoritesProvider>
+            </CartProvider>
+          </AuthProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 
-export default App;
+export default App

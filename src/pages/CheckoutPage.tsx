@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CreditCard, Check, ArrowLeft } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
 import { useOrders } from '../contexts/OrderContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import translations from '../data/translations';
 
 const CheckoutPage = () => {
   const { cart, getCartTotal, clearCart } = useCart();
   const { user } = useAuth();
+  const { addOrder, savedAddresses, addAddress } = useOrders();
+  const navigate = useNavigate();
+
   const { language } = useLanguage();
-  const { addOrder, addAddress, addresses, getDefaultAddress } = useOrders();
   const t = translations[language];
   
   const [step, setStep] = useState(1);
@@ -47,36 +49,23 @@ const CheckoutPage = () => {
     expiryDate: '',
     cvv: ''
   });
-  
-  // Load default addresses if available
+
+  // Load saved address if available
   useEffect(() => {
-    const defaultShipping = getDefaultAddress('Shipping');
-    const defaultBilling = getDefaultAddress('Billing');
-
-    if (defaultShipping) {
-      setShippingForm({
-        fullName: defaultShipping.name,
-        address: defaultShipping.address,
-        city: defaultShipping.city,
-        state: defaultShipping.state,
-        zipCode: defaultShipping.zipCode,
-        country: defaultShipping.country,
-        phone: defaultShipping.phone,
-        sameAsBilling: true
-      });
+    if (savedAddresses.length > 0) {
+      const lastAddress = savedAddresses[savedAddresses.length - 1];
+      setShippingForm(prev => ({
+        ...prev,
+        ...lastAddress
+      }));
+      if (shippingForm.sameAsBilling) {
+        setBillingForm(prev => ({
+          ...prev,
+          ...lastAddress
+        }));
+      }
     }
-
-    if (defaultBilling) {
-      setBillingForm({
-        fullName: defaultBilling.name,
-        address: defaultBilling.address,
-        city: defaultBilling.city,
-        state: defaultBilling.state,
-        zipCode: defaultBilling.zipCode,
-        country: defaultBilling.country
-      });
-    }
-  }, [getDefaultAddress]);
+  }, [savedAddresses]);
   
   // Calculate order summary values
   const subtotal = getCartTotal();
@@ -129,37 +118,16 @@ const CheckoutPage = () => {
   
   const handleContinueToPayment = (e: React.FormEvent) => {
     e.preventDefault();
-
     // Save shipping address
-    const shippingAddress = {
-      type: 'Shipping',
-      name: shippingForm.fullName,
+    addAddress({
+      fullName: shippingForm.fullName,
       address: shippingForm.address,
       city: shippingForm.city,
       state: shippingForm.state,
       zipCode: shippingForm.zipCode,
       country: shippingForm.country,
-      phone: shippingForm.phone,
-      isDefault: !addresses.some(addr => addr.type === 'Shipping' && addr.isDefault)
-    };
-    addAddress(shippingAddress);
-
-    // Save billing address if different
-    if (!shippingForm.sameAsBilling) {
-      const billingAddress = {
-        type: 'Billing',
-        name: billingForm.fullName,
-        address: billingForm.address,
-        city: billingForm.city,
-        state: billingForm.state,
-        zipCode: billingForm.zipCode,
-        country: billingForm.country,
-        phone: shippingForm.phone, // Use shipping phone for billing as well
-        isDefault: !addresses.some(addr => addr.type === 'Billing' && addr.isDefault)
-      };
-      addAddress(billingAddress);
-    }
-
+      phone: shippingForm.phone
+    });
     setStep(2);
     window.scrollTo(0, 0);
   };
@@ -168,57 +136,46 @@ const CheckoutPage = () => {
     e.preventDefault();
     setIsProcessing(true);
     
-    // Create the order
-    const orderData = {
-      status: 'Processing',
+    // Create order object
+    const newOrderNumber = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
+    const order = {
+      id: newOrderNumber,
+      date: new Date().toISOString(),
+      status: 'Processing' as const,
+      items: cart.map(item => ({
+        id: item.id,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      })),
       total,
-      items: cart.reduce((sum, item) => sum + item.quantity, 0),
       shippingAddress: {
-        type: 'Shipping',
-        name: shippingForm.fullName,
+        fullName: shippingForm.fullName,
         address: shippingForm.address,
         city: shippingForm.city,
         state: shippingForm.state,
         zipCode: shippingForm.zipCode,
         country: shippingForm.country,
-        phone: shippingForm.phone,
-        isDefault: true,
-        id: Date.now()
+        phone: shippingForm.phone
       },
-      billingAddress: shippingForm.sameAsBilling
-        ? {
-            type: 'Billing',
-            name: shippingForm.fullName,
-            address: shippingForm.address,
-            city: shippingForm.city,
-            state: shippingForm.state,
-            zipCode: shippingForm.zipCode,
-            country: shippingForm.country,
-            phone: shippingForm.phone,
-            isDefault: true,
-            id: Date.now() + 1
-          }
-        : {
-            type: 'Billing',
-            name: billingForm.fullName,
-            address: billingForm.address,
-            city: billingForm.city,
-            state: billingForm.state,
-            zipCode: billingForm.zipCode,
-            country: billingForm.country,
-            phone: shippingForm.phone,
-            isDefault: true,
-            id: Date.now() + 1
-          },
-      paymentMethod
+      billingAddress: {
+        fullName: billingForm.fullName,
+        address: billingForm.address,
+        city: billingForm.city,
+        state: billingForm.state,
+        zipCode: billingForm.zipCode,
+        country: billingForm.country
+      }
     };
 
+    // Save order
+    addOrder(order);
+    
     // Simulate order processing
     setTimeout(() => {
-      addOrder(orderData);
       setIsProcessing(false);
       setOrderComplete(true);
-      setOrderNumber(`ORD-${Math.floor(100000 + Math.random() * 900000)}`);
+      setOrderNumber(newOrderNumber);
       clearCart();
     }, 2000);
   };
@@ -737,8 +694,8 @@ const CheckoutPage = () => {
                     >
                       {isProcessing ? (
                         <span className="flex items-center">
-                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white\" xmlns="http://www.w3.org/2000/svg\" fill="none\" viewBox="0 0 24 24">
+                            <circle className="opacity-25\" cx="12\" cy="12\" r="10\" stroke="currentColor\" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                           </svg>
                           Processing...
@@ -799,7 +756,7 @@ const CheckoutPage = () => {
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-400">{t.shipping}</span>
                     <span className="text-gray-900 dark:text-white font-medium">
-                      {shipping === 0 ? 'Безкоштовно' : `${shipping.toFixed(2)} UAH`}
+                      {shipping === 0 ? 'Free' : `${shipping.toFixed(2)} UAH`}
                     </span>
                   </div>
                   
@@ -822,4 +779,4 @@ const CheckoutPage = () => {
   );
 };
 
-export default CheckoutPage;
+export default CheckoutPage
