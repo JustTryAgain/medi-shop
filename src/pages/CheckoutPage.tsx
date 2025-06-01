@@ -160,7 +160,7 @@ const CheckoutPage = () => {
                 
                 <div className="flex justify-between">
                   <span className="text-gray-600 dark:text-gray-400">{t.total}:</span>
-                  <span className="text-gray-900 dark:text-white font-medium">${total.toFixed(2)}</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{total.toFixed(2)} UAH</span>
                 </div>
               </div>
               
@@ -196,7 +196,7 @@ const CheckoutPage = () => {
         <div className="flex items-center mb-8">
           <Link to="/cart" className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline mr-4">
             <ArrowLeft size={16} className="mr-1" />
-            Back to Cart
+            {t.back}
           </Link>
           
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
@@ -331,6 +331,7 @@ const CheckoutPage = () => {
                           required
                           className="input-field"
                         >
+                          <option value="Ukraine">Україна</option>
                           <option value="United States">United States</option>
                           <option value="Canada">Canada</option>
                           <option value="United Kingdom">United Kingdom</option>
@@ -464,6 +465,7 @@ const CheckoutPage = () => {
                               required
                               className="input-field"
                             >
+                              <option value="Ukraine">Україна</option>
                               <option value="United States">United States</option>
                               <option value="Canada">Canada</option>
                               <option value="United Kingdom">United Kingdom</option>
@@ -617,7 +619,7 @@ const CheckoutPage = () => {
                       onClick={() => setStep(1)}
                       className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-100 transition-colors dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
                     >
-                      Back
+                      {t.back}
                     </button>
                     
                     <button
@@ -671,7 +673,7 @@ const CheckoutPage = () => {
                             Qty: {item.quantity}
                           </p>
                           <p className="text-sm font-medium text-gray-900 dark:text-white">
-                            ${(itemPrice * item.quantity).toFixed(2)}
+                            {(itemPrice * item.quantity).toFixed(2)} UAH
                           </p>
                         </div>
                       </div>
@@ -683,24 +685,24 @@ const CheckoutPage = () => {
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-4">
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-400">{t.subtotal}</span>
-                    <span className="text-gray-900 dark:text-white font-medium">${subtotal.toFixed(2)}</span>
+                    <span className="text-gray-900 dark:text-white font-medium">{subtotal.toFixed(2)} UAH</span>
                   </div>
                   
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-400">{t.shipping}</span>
                     <span className="text-gray-900 dark:text-white font-medium">
-                      {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
+                      {shipping === 0 ? 'Free' : `${shipping.toFixed(2)} UAH`}
                     </span>
                   </div>
                   
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-400">{t.tax}</span>
-                    <span className="text-gray-900 dark:text-white font-medium">${tax.toFixed(2)}</span>
+                    <span className="text-gray-900 dark:text-white font-medium">{tax.toFixed(2)} UAH</span>
                   </div>
                   
                   <div className="border-t border-gray-200 dark:border-gray-700 pt-4 flex justify-between">
                     <span className="text-lg font-semibold text-gray-900 dark:text-white">{t.total}</span>
-                    <span className="text-lg font-semibold text-gray-900 dark:text-white">${total.toFixed(2)}</span>
+                    <span className="text-lg font-semibold text-gray-900 dark:text-white">{total.toFixed(2)} UAH</span>
                   </div>
                 </div>
               </div>

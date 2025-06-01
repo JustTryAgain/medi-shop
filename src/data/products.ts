@@ -20,7 +20,7 @@ const products = (translation: any): Product[] => [
     id: '1',
     name: translation.productsT[0].name,
     description: translation.productsT[0].description,
-    price: 881.70,
+    price: 90,
     category: translation.productsT[0].category,
     image: '/asset/ibuprofen-darnitsa.jpg',
     stock: 120,
@@ -30,7 +30,7 @@ const products = (translation: any): Product[] => [
     dosage: translation.productsT[0].dosage,
     manufacturer: translation.productsT[0].manufacturer,
     tags: translation.productsT[0].tags,
-    discount: 10,
+    discount: 10
   },
   {
     id: '2',
@@ -45,7 +45,7 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[1].dosage,
     manufacturer: translation.productsT[1].manufacturer,
-    tags: translation.productsT[1].tags,
+    tags: translation.productsT[1].tags
   },
   {
     id: '3',
@@ -60,7 +60,7 @@ const products = (translation: any): Product[] => [
     isRx: true,
     dosage: translation.productsT[2].dosage,
     manufacturer: translation.productsT[2].manufacturer,
-    tags: translation.productsT[2].tags,
+    tags: translation.productsT[2].tags
   },
   {
     id: '4',
@@ -76,7 +76,7 @@ const products = (translation: any): Product[] => [
     dosage: translation.productsT[3].dosage,
     manufacturer: translation.productsT[3].manufacturer,
     tags: translation.productsT[3].tags,
-    discount: 5,
+    discount: 5
   },
   {
     id: '5',
@@ -92,7 +92,7 @@ const products = (translation: any): Product[] => [
     dosage: translation.productsT[4].dosage,
     manufacturer: translation.productsT[4].manufacturer,
     tags: translation.productsT[4].tags,
-    discount: 5,
+    discount: 5
   },
 
   {
@@ -108,8 +108,7 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[5].dosage,
     manufacturer: translation.productsT[5].manufacturer,
-    tags: translation.productsT[5].tags,
-    discount: 0,
+    tags: translation.productsT[5].tags
   },
   {
     id: '7',
@@ -124,8 +123,7 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[6].dosage,
     manufacturer: translation.productsT[6].manufacturer,
-    tags: translation.productsT[6].tags,
-    discount: 0,
+    tags: translation.productsT[6].tags
   },
   {
     id: '8',
@@ -140,8 +138,7 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[7].dosage,
     manufacturer: translation.productsT[7].manufacturer,
-    tags: translation.productsT[7].tags,
-    discount: 0,
+    tags: translation.productsT[7].tags
   },
   {
     id: '9',
@@ -156,8 +153,7 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[8].dosage,
     manufacturer: translation.productsT[8].manufacturer,
-    tags: translation.productsT[8].tags,
-    discount: 0,
+    tags: translation.productsT[8].tags
   },
   {
     id: '10',
@@ -172,8 +168,7 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[9].dosage,
     manufacturer: translation.productsT[9].manufacturer,
-    tags: translation.productsT[9].tags,
-    discount: 0,
+    tags: translation.productsT[9].tags
   },
   {
     id: '11',
@@ -188,8 +183,7 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[10].dosage,
     manufacturer: translation.productsT[10].manufacturer,
-    tags: translation.productsT[10].tags,
-    discount: 0,
+    tags: translation.productsT[10].tags
   },
   {
     id: '12',
@@ -204,8 +198,7 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[11].dosage,
     manufacturer: translation.productsT[11].manufacturer,
-    tags: translation.productsT[11].tags,
-    discount: 0,
+    tags: translation.productsT[11].tags
   },
   {
     id: '13',
@@ -220,10 +213,9 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[12].dosage,
     manufacturer: translation.productsT[12].manufacturer,
-    tags: translation.productsT[12].tags,
-    discount: 0,
+    tags: translation.productsT[12].tags
   },
-  {///////////
+  {
     id: '14',
     name: translation.productsT[13].name,
     description: translation.productsT[13].description,
@@ -236,8 +228,7 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[13].dosage,
     manufacturer: translation.productsT[13].manufacturer,
-    tags: translation.productsT[13].tags,
-    discount: 0,
+    tags: translation.productsT[13].tags
   },
   {
     id: '15',
@@ -252,8 +243,7 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[14].dosage,
     manufacturer: translation.productsT[14].manufacturer,
-    tags: translation.productsT[14].tags,
-    discount: 0,
+    tags: translation.productsT[14].tags
   },
   {
     id: '16',
@@ -268,8 +258,8 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[15].dosage,
     manufacturer: translation.productsT[15].manufacturer,
-    tags: translation.productsT[15].tags,
-    discount: 0,
+    tags: translation.productsT[15].tags
+
   },
   {
     id: '17',
@@ -284,8 +274,8 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[16].dosage,
     manufacturer: translation.productsT[16].manufacturer,
-    tags: translation.productsT[16].tags,
-    discount: 0,
+    tags: translation.productsT[16].tags
+
   },
   {
     id: '18',
@@ -300,8 +290,8 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[17].dosage,
     manufacturer: translation.productsT[17].manufacturer,
-    tags: translation.productsT[17].tags,
-    discount: 0,
+    tags: translation.productsT[17].tags
+
   },
   {
     id: '19',
@@ -316,8 +306,8 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[18].dosage,
     manufacturer: translation.productsT[18].manufacturer,
-    tags: translation.productsT[18].tags,
-    discount: 0,
+    tags: translation.productsT[18].tags
+
   },
   {
     id: '20',
@@ -332,8 +322,8 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[19].dosage,
     manufacturer: translation.productsT[19].manufacturer,
-    tags: translation.productsT[19].tags,
-    discount: 0,
+    tags: translation.productsT[19].tags
+
   },
   {
     id: '21',
@@ -348,8 +338,8 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[20].dosage,
     manufacturer: translation.productsT[20].manufacturer,
-    tags: translation.productsT[20].tags,
-    discount: 0,
+    tags: translation.productsT[20].tags
+
   },
   {
     id: '22',
@@ -364,8 +354,8 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[21].dosage,
     manufacturer: translation.productsT[21].manufacturer,
-    tags: translation.productsT[21].tags,
-    discount: 0,
+    tags: translation.productsT[21].tags
+
   },
   {
     id: '23',
@@ -380,8 +370,8 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[22].dosage,
     manufacturer: translation.productsT[22].manufacturer,
-    tags: translation.productsT[22].tags,
-    discount: 0,
+    tags: translation.productsT[22].tags
+
   },
   {
     id: '24',
@@ -396,8 +386,8 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[23].dosage,
     manufacturer: translation.productsT[23].manufacturer,
-    tags: translation.productsT[23].tags,
-    discount: 0,
+    tags: translation.productsT[23].tags
+
   },
   {
     id: '25',
@@ -412,10 +402,9 @@ const products = (translation: any): Product[] => [
     isRx: false,
     dosage: translation.productsT[24].dosage,
     manufacturer: translation.productsT[24].manufacturer,
-    tags: translation.productsT[24].tags,
-    discount: 0,
-  },
+    tags: translation.productsT[24].tags
 
+  }
 ];
 
 

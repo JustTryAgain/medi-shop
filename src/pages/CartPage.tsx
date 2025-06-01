@@ -115,7 +115,7 @@ const CartPage = () => {
                                 </p>
                               </div>
                               <p className="text-lg font-medium text-gray-900 dark:text-white">
-                                ${(itemPrice * item.quantity).toFixed(2)}
+                                {(itemPrice * item.quantity).toFixed(2)} UAH
                               </p>
                             </div>
                             
@@ -186,31 +186,31 @@ const CartPage = () => {
                 <div className="space-y-4">
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-400">{t.subtotal}</span>
-                    <span className="text-gray-900 dark:text-white font-medium">${subtotal.toFixed(2)}</span>
+                    <span className="text-gray-900 dark:text-white font-medium">{subtotal.toFixed(2)} UAH</span>
                   </div>
                   
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-400">{t.shipping}</span>
                     <span className="text-gray-900 dark:text-white font-medium">
-                      {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
+                      {shipping === 0 ? 'Free' : `${shipping.toFixed(2)} UAH`}
                     </span>
                   </div>
                   
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-400">{t.tax}</span>
-                    <span className="text-gray-900 dark:text-white font-medium">${tax.toFixed(2)}</span>
+                    <span className="text-gray-900 dark:text-white font-medium">{tax.toFixed(2)} UAH</span>
                   </div>
                   
                   {couponApplied && (
                     <div className="flex justify-between text-green-600 dark:text-green-400">
                       <span>Discount (FIRST10)</span>
-                      <span>-${couponDiscount.toFixed(2)}</span>
+                      <span>-{couponDiscount.toFixed(2)} UAH</span>
                     </div>
                   )}
                   
                   <div className="border-t border-gray-200 dark:border-gray-700 pt-4 flex justify-between">
                     <span className="text-lg font-semibold text-gray-900 dark:text-white">{t.total}</span>
-                    <span className="text-lg font-semibold text-gray-900 dark:text-white">${total.toFixed(2)}</span>
+                    <span className="text-lg font-semibold text-gray-900 dark:text-white">{total.toFixed(2)} UAH</span>
                   </div>
                 </div>
                 

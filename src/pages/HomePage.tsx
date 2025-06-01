@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, FormEvent, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, ChevronRight, ArrowRight } from 'lucide-react';
 import ProductCard from '../components/products/ProductCard';
@@ -9,10 +9,10 @@ import getProducts from '../data/products';
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { language } = useLanguage();
-  const t = translations[language];
+  const t = useMemo(() => translations[language], [language]);
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
-  const products = getProducts(t);
+  const products = useMemo(() => getProducts(t), [t]);
 
   // Get featured products (with discount)
   useEffect(() => {
@@ -21,7 +21,7 @@ const HomePage = () => {
       .slice(0, 4);
 
     setFeaturedProducts(featured);
-  }, []);
+  }, [language]);
 
   // Get popular products (highest rated)
   useEffect(() => {
@@ -30,7 +30,7 @@ const HomePage = () => {
       .slice(0, 4);
 
     setPopularProducts(popular);
-  }, []);
+  }, [language]);
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();

@@ -20,7 +20,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   const favorite = isFavorite(product.id);
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = (e: MouseEvent) => {
     e.preventDefault(); // Prevent navigation
     e.stopPropagation(); // Prevent event bubbling
 
@@ -33,7 +33,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     }, 1000);
   };
 
-  const handleFavoriteToggle = (e: React.MouseEvent) => {
+  const handleFavoriteToggle = (e: MouseEvent) => {
     e.preventDefault(); // Prevent navigation
     e.stopPropagation(); // Prevent event bubbling
 
@@ -98,7 +98,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 {displayPrice.toFixed(2)}₴
               </span>
 
-              {product.discount && (
+              {product.discount && product.discount > 0 && (
                 <span className="ml-2 text-sm text-gray-500 dark:text-gray-400 line-through">
                   {product.price.toFixed(2)}₴
                 </span>

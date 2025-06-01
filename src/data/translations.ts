@@ -1,6 +1,8 @@
 const translations = {
   en: {
 
+    back: 'Back',
+
 //Returns Policy
     returnsPolicy: 'Returns Policy',
     returnEligibility: 'Return Eligibility',
@@ -55,7 +57,8 @@ const translations = {
     IntellectualPropertyText: "The Service and its original content, features, and functionality are and will remain the exclusive property of MED+ and its licensors. The Service is protected by copyright, trademark, and other intellectual property laws.",
     TermsOfService:`Terms of Service`,
 
-
+    min: 'min',
+    max: 'max',
     profileInformation: "Profile Information",
     myAddress: "My Address",
     myFavorite: "My Favorite",
@@ -122,11 +125,17 @@ const translations = {
     paymentSuccessful: 'Payment Successful',
     placeOrder: 'Place Order',
     popularProducts: 'Popular Products',
+    priceSortToHigh: 'Price: Low to High',
+    priceSortToLow: 'Price: High to Low',
+    newest: 'Newest',
+    popular: 'Popular',
     price: 'Price',
     password:` Password`,
     priceRange: 'Price Range',
     prod: 'products',
     products: 'Products',
+    product: 'product',
+    found: 'found',
     profile: 'Profile',
     quickLinks: 'Quick Links',
     quantity: 'Quantity',
@@ -408,6 +417,8 @@ const translations = {
   },
   ua: {
 
+    back: 'Повернутися',
+
 //Returns Policy
     returnsPolicy: 'Політика повернення',
     returnEligibility: 'Право на повернення',
@@ -478,6 +489,8 @@ const translations = {
     goToHome:`На головну`,
     browseProducts: "До продуктів",
 
+    min: 'мінімум',
+    max: 'максимум',
     notFound: `Можливо, сторінку, яку ви шукаєте, видалили, її назву змінили або вона тимчасово недоступна.`,
     action: "Дія",
     all: 'Все',
@@ -529,10 +542,16 @@ const translations = {
     paymentSuccessful: 'Оплата успішна',
     placeOrder: 'Розмістити замовлення',
     popularProducts: 'Популярні товари',
+    priceSortToHigh: 'Ціна: дешева - дорога',
+    priceSortToLow: 'Ціна: дорога - дешева',
+    newest: 'Нові',
+    popular: 'Популярні',
     price: 'Ціна',
     priceRange: 'Ціновий діапазон',
     prod: 'продуктів',
     products: 'Продукти',
+    product: 'продукт',
+    found: 'знайдено',
     profile: 'Профіль',
     quickLinks: 'Швидкі посилання',
     quantity: 'Кількість',

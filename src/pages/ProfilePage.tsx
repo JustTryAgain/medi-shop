@@ -266,7 +266,7 @@ const ProfilePage = () => {
                                 </span>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-white">
-                                ${order.total.toFixed(2)}
+                                {order.total.toFixed(2)} UAH
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-300">
                                 {order.items} {order.items === 1 ? 'item' : 'items'}

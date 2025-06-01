@@ -34,7 +34,7 @@ const ProductDetailPage = () => {
       // Product not found, redirect to products page
       navigate('/products');
     }
-  }, [id, navigate]);
+  }, [id, navigate, language]);
 
   // Get related products
   useEffect(() => {
@@ -44,7 +44,7 @@ const ProductDetailPage = () => {
         .slice(0, 4);
       setRelatedProducts(related);
     }
-  }, [product]);
+  }, [product, language]);
 
   const handleQuantityChange = (value: number) => {
     if (product && value >= 1 && value <= product.stock) {
@@ -99,7 +99,7 @@ const ProductDetailPage = () => {
         <div className="mb-6">
           <Link to="/products" className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline">
             <ArrowLeft size={16} className="mr-1"/>
-            Back to Products
+            {t.back}
           </Link>
         </div>
 
