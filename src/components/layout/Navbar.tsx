@@ -5,6 +5,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
+import { useFavorites } from '../../contexts/FavoritesContext';
 import translations from '../../data/translations';
 import MobileMenu from './MobileMenu';
 
@@ -17,7 +18,8 @@ const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const { language, setLanguage } = useLanguage();
   const { isAuthenticated } = useAuth();
-  const { cart } = useCart();
+  const { getCartItemCount } = useCart();
+  const { favorites } = useFavorites();
   const t = translations[language];
 
   useEffect(() => {
@@ -40,6 +42,9 @@ const Navbar = () => {
       setSearchQuery('');
     }
   };
+
+  const cartItemCount = getCartItemCount();
+  const favoritesCount = favorites.length;
 
   return (
     <header 
@@ -122,16 +127,21 @@ const Navbar = () => {
             {/* Cart */}
             <Link to="/cart" className="icon-button relative">
               <ShoppingCart size={20} />
-              {cart.length > 0 && (
+              {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center rounded-full bg-blue-600 text-white text-xs">
-                  {cart.length}
+                  {cartItemCount}
                 </span>
               )}
             </Link>
 
             {/* Favorites */}
-            <Link to="/favorites" className="icon-button hidden md:flex">
+            <Link to="/favorites" className="icon-button hidden md:flex relative">
               <Heart size={20} />
+              {favoritesCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center rounded-full bg-red-600 text-white text-xs">
+                  {favoritesCount}
+                </span>
+              )}
             </Link>
 
             {/* User */}

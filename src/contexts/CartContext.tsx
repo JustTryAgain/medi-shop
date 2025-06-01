@@ -19,68 +19,99 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>(() => {
-    // Load cart from localStorage on initial render
-    const savedCart = localStorage.getItem('cart');
-    return savedCart ? JSON.parse(savedCart) : [];
+    try {
+      const savedCart = localStorage.getItem('cart');
+      return savedCart ? JSON.parse(savedCart) : [];
+    } catch (error) {
+      console.error('Error loading cart from localStorage:', error);
+      return [];
+    }
   });
 
-  // Save to localStorage whenever cart changes
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
+    try {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    } catch (error) {
+      console.error('Error saving cart to localStorage:', error);
+    }
   }, [cart]);
 
   const addToCart = (product: Product, quantity = 1) => {
-    setCart(prevCart => {
-      // Check if item is already in cart
-      const existingItemIndex = prevCart.findIndex(item => item.id === product.id);
-      
-      if (existingItemIndex >= 0) {
-        // Item exists, update quantity
-        const newCart = [...prevCart];
-        newCart[existingItemIndex] = {
-          ...newCart[existingItemIndex],
-          quantity: newCart[existingItemIndex].quantity + quantity
-        };
-        return newCart;
-      } else {
-        // Item doesn't exist, add new item
-        return [...prevCart, { ...product, quantity }];
-      }
-    });
+    try {
+      setCart(prevCart => {
+        const existingItemIndex = prevCart.findIndex(item => item.id === product.id);
+        
+        if (existingItemIndex >= 0) {
+          const newCart = [...prevCart];
+          newCart[existingItemIndex] = {
+            ...newCart[existingItemIndex],
+            quantity: newCart[existingItemIndex].quantity + quantity
+          };
+          return newCart;
+        } else {
+          return [...prevCart, { ...product, quantity }];
+        }
+      });
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    }
   };
 
   const removeFromCart = (productId: string) => {
-    setCart(prevCart => prevCart.filter(item => item.id !== productId));
+    try {
+      setCart(prevCart => prevCart.filter(item => item.id !== productId));
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
+    }
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
-    if (quantity <= 0) {
-      removeFromCart(productId);
-      return;
+    try {
+      if (quantity <= 0) {
+        removeFromCart(productId);
+        return;
+      }
+      
+      setCart(prevCart => 
+        prevCart.map(item => 
+          item.id === productId ? { ...item, quantity } : item
+        )
+      );
+    } catch (error) {
+      console.error('Error updating cart quantity:', error);
     }
-    
-    setCart(prevCart => 
-      prevCart.map(item => 
-        item.id === productId ? { ...item, quantity } : item
-      )
-    );
   };
 
   const clearCart = () => {
-    setCart([]);
+    try {
+      setCart([]);
+      localStorage.removeItem('cart');
+    } catch (error) {
+      console.error('Error clearing cart:', error);
+    }
   };
 
   const getCartTotal = () => {
-    return cart.reduce((total, item) => {
-      const price = item.discount 
-        ? item.price * (1 - item.discount / 100) 
-        : item.price;
-      return total + (price * item.quantity);
-    }, 0);
+    try {
+      return cart.reduce((total, item) => {
+        const price = item.discount 
+          ? item.price * (1 - item.discount / 100) 
+          : item.price;
+        return total + (price * item.quantity);
+      }, 0);
+    } catch (error) {
+      console.error('Error calculating cart total:', error);
+      return 0;
+    }
   };
 
   const getCartItemCount = () => {
-    return cart.reduce((count, item) => count + item.quantity, 0);
+    try {
+      return cart.reduce((count, item) => count + item.quantity, 0);
+    } catch (error) {
+      console.error('Error calculating cart item count:', error);
+      return 0;
+    }
   };
 
   const value = {
