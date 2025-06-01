@@ -1,14 +1,17 @@
-import { useState } from 'react';
-import { Link, } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { CreditCard, Check, ArrowLeft } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useOrders } from '../contexts/OrderContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import translations from '../data/translations';
 
 const CheckoutPage = () => {
   const { cart, getCartTotal, clearCart } = useCart();
   const { user } = useAuth();
+  const { addOrder, savedAddresses, addAddress } = useOrders();
+  const navigate = useNavigate();
 
   const { language } = useLanguage();
   const t = translations[language];
@@ -46,6 +49,23 @@ const CheckoutPage = () => {
     expiryDate: '',
     cvv: ''
   });
+
+  // Load saved address if available
+  useEffect(() => {
+    if (savedAddresses.length > 0) {
+      const lastAddress = savedAddresses[savedAddresses.length - 1];
+      setShippingForm(prev => ({
+        ...prev,
+        ...lastAddress
+      }));
+      if (shippingForm.sameAsBilling) {
+        setBillingForm(prev => ({
+          ...prev,
+          ...lastAddress
+        }));
+      }
+    }
+  }, [savedAddresses]);
   
   // Calculate order summary values
   const subtotal = getCartTotal();
@@ -98,6 +118,16 @@ const CheckoutPage = () => {
   
   const handleContinueToPayment = (e: React.FormEvent) => {
     e.preventDefault();
+    // Save shipping address
+    addAddress({
+      fullName: shippingForm.fullName,
+      address: shippingForm.address,
+      city: shippingForm.city,
+      state: shippingForm.state,
+      zipCode: shippingForm.zipCode,
+      country: shippingForm.country,
+      phone: shippingForm.phone
+    });
     setStep(2);
     window.scrollTo(0, 0);
   };
@@ -106,11 +136,46 @@ const CheckoutPage = () => {
     e.preventDefault();
     setIsProcessing(true);
     
+    // Create order object
+    const newOrderNumber = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
+    const order = {
+      id: newOrderNumber,
+      date: new Date().toISOString(),
+      status: 'Processing' as const,
+      items: cart.map(item => ({
+        id: item.id,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      total,
+      shippingAddress: {
+        fullName: shippingForm.fullName,
+        address: shippingForm.address,
+        city: shippingForm.city,
+        state: shippingForm.state,
+        zipCode: shippingForm.zipCode,
+        country: shippingForm.country,
+        phone: shippingForm.phone
+      },
+      billingAddress: {
+        fullName: billingForm.fullName,
+        address: billingForm.address,
+        city: billingForm.city,
+        state: billingForm.state,
+        zipCode: billingForm.zipCode,
+        country: billingForm.country
+      }
+    };
+
+    // Save order
+    addOrder(order);
+    
     // Simulate order processing
     setTimeout(() => {
       setIsProcessing(false);
       setOrderComplete(true);
-      setOrderNumber(`ORD-${Math.floor(100000 + Math.random() * 900000)}`);
+      setOrderNumber(newOrderNumber);
       clearCart();
     }, 2000);
   };
@@ -713,5 +778,3 @@ const CheckoutPage = () => {
     </div>
   );
 };
-
-export default CheckoutPage;

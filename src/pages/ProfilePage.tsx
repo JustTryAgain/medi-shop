@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { LogOut, User, MapPin, ShoppingBag, Heart, Edit, Key } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useOrders } from '../contexts/OrderContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import translations from '../data/translations';
 import { Link, useNavigate } from 'react-router-dom';
 
 const ProfilePage = () => {
   const { user, logout } = useAuth();
+  const { orders, savedAddresses } = useOrders();
   const { language } = useLanguage();
   const t = translations[language];
   const navigate = useNavigate();
@@ -16,52 +18,6 @@ const ProfilePage = () => {
     logout();
     navigate('/');
   };
-
-  // Mock orders data
-  const orders = [
-    {
-      id: 'ORD-1234',
-      date: '2024-04-10',
-      status: 'Delivered',
-      total: 75.99,
-      items: 3
-    },
-    {
-      id: 'ORD-5678',
-      date: '2024-03-25',
-      status: 'Processing',
-      total: 145.50,
-      items: 5
-    }
-  ];
-
-  // Mock address data
-  const addresses = [
-    {
-      id: 1,
-      type: 'Shipping',
-      name: user?.name,
-      address: '123 Main Street',
-      city: 'New York',
-      state: 'NY',
-      zipCode: '10001',
-      country: 'United States',
-      phone: '+38 (096)-932-4567',
-      isDefault: true
-    },
-    {
-      id: 2,
-      type: 'Billing',
-      name: user?.name,
-      address: '456 Park Avenue',
-      city: 'New York',
-      state: 'NY',
-      zipCode: '10022',
-      country: 'United States',
-      phone: '+38 (096)-932-4567',
-      isDefault: true
-    }
-  ];
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 py-8">
@@ -269,7 +225,7 @@ const ProfilePage = () => {
                                 {order.total.toFixed(2)} UAH
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-300">
-                                {order.items} {order.items === 1 ? 'item' : 'items'}
+                                {order.items.length} {order.items.length === 1 ? 'item' : 'items'}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-right">
                                 <button className="text-blue-600 dark:text-blue-400 hover:underline">
@@ -299,27 +255,21 @@ const ProfilePage = () => {
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {addresses.map(address => (
+                    {savedAddresses.map((address, index) => (
                       <div 
-                        key={address.id} 
+                        key={index} 
                         className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 relative"
                       >
-                        {address.isDefault && (
-                          <span className="absolute top-2 right-2 px-2 py-1 bg-blue-100 dark:bg-blue-900 rounded text-xs font-medium text-blue-700 dark:text-blue-300">
-                            Default {address.type}
-                          </span>
-                        )}
-                        
                         <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-                          {address.type} Address
+                          Address {index + 1}
                         </h3>
                         
                         <div className="text-gray-600 dark:text-gray-300 space-y-1">
-                          <p>{address.name}</p>
+                          <p>{address.fullName}</p>
                           <p>{address.address}</p>
                           <p>{address.city}, {address.state} {address.zipCode}</p>
                           <p>{address.country}</p>
-                          <p>{address.phone}</p>
+                          {address.phone && <p>{address.phone}</p>}
                         </div>
                         
                         <div className="mt-4 flex space-x-3">
@@ -342,5 +292,3 @@ const ProfilePage = () => {
     </div>
   );
 };
-
-export default ProfilePage;
