@@ -799,7 +799,7 @@ const CheckoutPage = () => {
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-400">{t.shipping}</span>
                     <span className="text-gray-900 dark:text-white font-medium">
-                      {shipping === 0 ? 'Free' : `${shipping.toFixed(2)} UAH`}
+                      {shipping === 0 ? 'Безкоштовно' : `${shipping.toFixed(2)} UAH`}
                     </span>
                   </div>
                   
