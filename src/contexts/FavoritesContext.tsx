@@ -13,43 +13,60 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(undefin
 
 export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
   const [favorites, setFavorites] = useState<Product[]>(() => {
-    // Load favorites from localStorage on initial render
-    const savedFavorites = localStorage.getItem('favorites');
-    return savedFavorites ? JSON.parse(savedFavorites) : [];
+    try {
+      const savedFavorites = localStorage.getItem('favorites');
+      return savedFavorites ? JSON.parse(savedFavorites) : [];
+    } catch (error) {
+      console.error('Error loading favorites from localStorage:', error);
+      return [];
+    }
   });
 
-  // Save to localStorage whenever favorites changes
   useEffect(() => {
-    localStorage.setItem('favorites', JSON.stringify(favorites));
+    try {
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    } catch (error) {
+      console.error('Error saving favorites to localStorage:', error);
+    }
   }, [favorites]);
 
   const addToFavorites = (product: Product) => {
-    setFavorites(prevFavorites => {
-      // Check if item is already in favorites
-      const existingItem = prevFavorites.find(item => item.id === product.id);
-      
-      if (existingItem) {
-        // Item already in favorites, don't add it again
-        return prevFavorites;
-      } else {
-        // Item not in favorites, add it
-        return [...prevFavorites, product];
-      }
-    });
+    try {
+      setFavorites(prevFavorites => {
+        const existingItem = prevFavorites.find(item => item.id === product.id);
+        return existingItem ? prevFavorites : [...prevFavorites, product];
+      });
+    } catch (error) {
+      console.error('Error adding to favorites:', error);
+    }
   };
 
   const removeFromFavorites = (productId: string) => {
-    setFavorites(prevFavorites => 
-      prevFavorites.filter(item => item.id !== productId)
-    );
+    try {
+      setFavorites(prevFavorites => 
+        prevFavorites.filter(item => item.id !== productId)
+      );
+    } catch (error) {
+      console.error('Error removing from favorites:', error);
+    }
   };
 
   const isFavorite = (productId: string) => {
-    return favorites.some(item => item.id === productId);
+    try {
+      return favorites.some(item => item.id === productId);
+    } catch (error) {
+      console.error('Error checking favorite status:', error);
+      return false;
+    }
   };
 
   const clearFavorites = () => {
-    setFavorites([]);
+    try {
+      setFavorites([]);
+      localStorage.removeItem('favorites');
+    } catch (error) {
+      console.error('Error clearing favorites:', error);
+    }
   };
 
   const value = {

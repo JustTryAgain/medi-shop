@@ -6,6 +6,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { OrderProvider } from './contexts/OrderContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import Layout from './components/layout/Layout';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
@@ -42,56 +43,58 @@ function App() {
   }
 
   return (
+    <ErrorBoundary>
     <ThemeProvider>
       <LanguageProvider>
         <AuthProvider>
           <CartProvider>
             <FavoritesProvider>
               <OrderProvider>
-                <Router>
-                  <Routes>
-                    <Route path="/" element={<Layout />}>
-                      <Route index element={<HomePage />} />
-                      <Route path="products" element={<ProductsPage />} />
-                      <Route path="products/:id" element={<ProductDetailPage />} />
-                      <Route 
-                        path="profile" 
-                        element={
-                          <ProtectedRoute>
-                            <ProfilePage />
-                          </ProtectedRoute>
-                        } 
-                      />
-                      <Route 
-                        path="favorites" 
-                        element={
-                          <ProtectedRoute>
-                            <FavoritesPage />
-                          </ProtectedRoute>
-                        } 
-                      />
-                      <Route path="cart" element={<CartPage />} />
-                      <Route 
-                        path="checkout" 
-                        element={
-                          <ProtectedRoute>
-                            <CheckoutPage />
-                          </ProtectedRoute>
-                        } 
-                      />
-                      <Route path="terms" element={<TermsPage />} />
-                      <Route path="login" element={<LoginPage />} />
-                      <Route path="register" element={<RegisterPage />} />
-                      <Route path="*" element={<NotFoundPage />} />
-                    </Route>
-                  </Routes>
-                </Router>
-              </OrderProvider>
+              <Router>
+                <Routes>
+                  <Route path="/" element={<Layout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="products" element={<ProductsPage />} />
+                    <Route path="products/:id" element={<ProductDetailPage />} />
+                    <Route 
+                      path="profile" 
+                      element={
+                        <ProtectedRoute>
+                          <ProfilePage />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route 
+                      path="favorites" 
+                      element={
+                        <ProtectedRoute>
+                          <FavoritesPage />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route path="cart" element={<CartPage />} />
+                    <Route 
+                      path="checkout" 
+                      element={
+                        <ProtectedRoute>
+                          <CheckoutPage />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route path="terms" element={<TermsPage />} />
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="register" element={<RegisterPage />} />
+                    <Route path="*" element={<NotFoundPage />} />
+                  </Route>
+                </Routes>
+              </Router>
+                </OrderProvider>
             </FavoritesProvider>
           </CartProvider>
         </AuthProvider>
       </LanguageProvider>
     </ThemeProvider>
+</ErrorBoundary>
   );
 }
 
